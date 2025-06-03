@@ -1,60 +1,94 @@
-import plotly.graph_objects as go
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lista Complementaria Total UAM 2020–2024</title>
+<!-- Incluimos Plotly.js desde CDN -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; padding: 20px;
+    background-color: #FAFAFA;
+    color: #333;
+  }
+  #chart {
+    width: 90vw;
+    max-width: 900px;
+    height: 600px;
+    margin: auto;
+  }
+</style>
+</head>
+<body>
 
-#Definimos las variables, sus valores y colores
-labels = ["Admisión", "Inscripción", "Sin inscripción"]
-values = [2219, 1906, 310]
-colors = ["#264653", "#2A9D8F", "#E76F51"]
+<h1 style="text-align:center; color:#264653;">📋 Lista Complementaria Total UAM 2020–2024</h1>
 
-#Formato del gráfico
-fig = go.Figure(go.Funnelarea(
-    text=labels,
-    labels=labels,
-    values=values,
-    marker=dict(
-        colors=colors,
-        line=dict(color="#FFFFFF", width=3) #Bordes blancos
-    ),
-    textinfo="label+value+percent",
-    textfont=dict(size=18),
-    opacity=1
-))
+<div id="chart"></div>
 
-#Cuadro de datos
-annotation_text = "<b>Resumen de datos</b><br><br>" + "<br>".join(
-    f"<span style='color:{c}'>{l}:</span> <b>{v:,}</b>" for l, v, c in zip(labels, values, colors) #Definimos el color a las varibles
-)
+<script>
+  // Datos
+  const labels = ["Admisión", "Inscripción", "Sin inscripción"];
+  const values = [2219, 1906, 310];
+  const colors = ["#264653", "#2A9D8F", "#E76F51"];
 
-fig.update_layout( #Damos formato al Título del gráfico
-    title=dict(
-        text="📋 Lista Complementaria Total UAM 2020–2024",
-        x=0.5,
-        xanchor="center",
-        font=dict(size=26, family="Segoe UI, Helvetica, sans-serif", color="#264653")
-    ),
-    font=dict(
-        family="Segoe UI, Helvetica, sans-serif",
-        size=16,
-        color="#333333"
-    ),
-    annotations=[ #Damos formato al cuadro de información
-        dict(
-            x=1.05,
-            y=0.5,
-            xref="paper",
-            yref="paper",
-            align="left",
-            showarrow=False,
-            text=annotation_text,
-            font=dict(size=14, color="#333333"),
-            bgcolor="white",
-            bordercolor="#DDDDDD",
-            borderwidth=1,
-            borderpad=10
-        )
-    ],
-    paper_bgcolor="#FAFAFA", #Fondo del gráfico
-    plot_bgcolor="#FAFAFA",
-    margin=dict(t=100, l=60, r=200, b=60)
-)
+  // Texto para anotaciones (HTML)
+  const annotationText = `<b>Resumen de datos</b><br><br>` +
+    labels.map((label, i) => `<span style="color:${colors[i]}">${label}:</span> <b>${values[i].toLocaleString()}</b>`).join("<br>");
 
-fig.show()
+  // Datos para Plotly
+  const data = [{
+    type: 'funnelarea',
+    text: labels,
+    labels: labels,
+    values: values,
+    marker: {
+      colors: colors,
+      line: {color: '#FFFFFF', width: 3}
+    },
+    textinfo: 'label+value+percent',
+    textfont: {size: 18},
+    opacity: 1
+  }];
+
+  // Layout con anotación y estilo
+  const layout = {
+    title: {
+      text: "📋 Lista Complementaria Total UAM 2020–2024",
+      x: 0.5,
+      xanchor: "center",
+      font: {size: 26, family: "Segoe UI, Helvetica, sans-serif", color: "#264653"}
+    },
+    font: {
+      family: 'Segoe UI, Helvetica, sans-serif',
+      size: 16,
+      color: '#333333'
+    },
+    annotations: [{
+      x: 1.05,
+      y: 0.5,
+      xref: 'paper',
+      yref: 'paper',
+      align: 'left',
+      showarrow: false,
+      text: annotationText,
+      font: {size: 14, color: '#333333'},
+      bgcolor: 'white',
+      bordercolor: '#DDDDDD',
+      borderwidth: 1,
+      borderpad: 10
+    }],
+    paper_bgcolor: '#FAFAFA',
+    plot_bgcolor: '#FAFAFA',
+    margin: {t: 100, l: 60, r: 250, b: 60},
+    height: 600,
+  };
+
+  // Renderizamos el gráfico en el div #chart
+  Plotly.newPlot('chart', data, layout, {responsive: true});
+</script>
+
+</body>
+</html>
+
