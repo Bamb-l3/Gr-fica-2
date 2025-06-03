@@ -1,0 +1,60 @@
+import plotly.graph_objects as go
+
+#Definimos las variables, sus valores y colores
+labels = ["Admisión", "Inscripción", "Sin inscripción"]
+values = [2219, 1906, 310]
+colors = ["#264653", "#2A9D8F", "#E76F51"]
+
+#Formato del gráfico
+fig = go.Figure(go.Funnelarea(
+    text=labels,
+    labels=labels,
+    values=values,
+    marker=dict(
+        colors=colors,
+        line=dict(color="#FFFFFF", width=3) #Bordes blancos
+    ),
+    textinfo="label+value+percent",
+    textfont=dict(size=18),
+    opacity=1
+))
+
+#Cuadro de datos
+annotation_text = "<b>Resumen de datos</b><br><br>" + "<br>".join(
+    f"<span style='color:{c}'>{l}:</span> <b>{v:,}</b>" for l, v, c in zip(labels, values, colors) #Definimos el color a las varibles
+)
+
+fig.update_layout( #Damos formato al Título del gráfico
+    title=dict(
+        text="📋 Lista Complementaria Total UAM 2020–2024",
+        x=0.5,
+        xanchor="center",
+        font=dict(size=26, family="Segoe UI, Helvetica, sans-serif", color="#264653")
+    ),
+    font=dict(
+        family="Segoe UI, Helvetica, sans-serif",
+        size=16,
+        color="#333333"
+    ),
+    annotations=[ #Damos formato al cuadro de información
+        dict(
+            x=1.05,
+            y=0.5,
+            xref="paper",
+            yref="paper",
+            align="left",
+            showarrow=False,
+            text=annotation_text,
+            font=dict(size=14, color="#333333"),
+            bgcolor="white",
+            bordercolor="#DDDDDD",
+            borderwidth=1,
+            borderpad=10
+        )
+    ],
+    paper_bgcolor="#FAFAFA", #Fondo del gráfico
+    plot_bgcolor="#FAFAFA",
+    margin=dict(t=100, l=60, r=200, b=60)
+)
+
+fig.show()
